@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XiehouYu.Views.ProfilePage"
+             Title="个人资料">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <Frame BorderColor="LightGray" Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="游戏统计" FontSize="Large" FontAttributes="Bold"/>
+                    <Grid x:Name="statsGrid" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                        <Label Text="总分:" Grid.Row="0" Grid.Column="0"/>
+                        <Label x:Name="ScoreLabel" Grid.Row="0" Grid.Column="1"/>
+                        <Label Text="游戏次数:" Grid.Row="1" Grid.Column="0"/>
+                        <Label x:Name="TotalGamesLabel" Grid.Row="1" Grid.Column="1"/>
+                        <Label Text="正确率:" Grid.Row="2" Grid.Column="0"/>
+                        <Label x:Name="AccuracyLabel" Grid.Row="2" Grid.Column="1"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label Text="游戏历史" FontSize="Large" FontAttributes="Bold"/>
+            <CollectionView x:Name="HistoryCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,5" BorderColor="LightGray">
+                            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+                                <Label Text="{Binding Question}" Grid.ColumnSpan="2"/>
+                                <Label Text="你的答案:" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="{Binding UserAnswer}" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="正确答案:" Grid.Row="2" Grid.Column="0"/>
+                                <Label Text="{Binding CorrectAnswer}" Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="修改密码" Clicked="OnChangePasswordClicked"/>
+            <Button Text="退出登录" Clicked="OnLogoutClicked" BackgroundColor="Red"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 

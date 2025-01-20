@@ -1,0 +1,33 @@
+@using XiehouYu.Admin.ViewModels
+@model IEnumerable<LeaderboardViewModel>
+
+<h2>排行榜</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>排名</th>
+            <th>@Html.DisplayNameFor(model => model.UserName)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalScore)</th>
+            <th>@Html.DisplayNameFor(model => model.CorrectAnswers)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalQuestions)</th>
+            <th>@Html.DisplayNameFor(model => model.AccuracyRate)</th>
+            <th>@Html.DisplayNameFor(model => model.AverageTime)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{var rank = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(rank++)</td>
+                <td>@item.UserName</td>
+                <td>@item.TotalScore</td>
+                <td>@item.CorrectAnswers</td>
+                <td>@item.TotalQuestions</td>
+                <td>@($"{item.AccuracyRate:F2}%")</td>
+                <td>@($"{item.AverageTime:F1}秒")</td>
+            </tr>
+        }
+    </tbody>
+</table> 

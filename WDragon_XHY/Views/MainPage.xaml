@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XiehouYu.Views.MainPage"
+             Title="歇后语">
+    
+    <Grid RowDefinitions="*,Auto">
+        <!-- 主要内容区域 -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+
+                <Image Source="app_logo.png"
+                       HeightRequest="200"
+                       HorizontalOptions="Center" />
+
+                <Label Text="歇后语游戏"
+                       SemanticProperties.HeadingLevel="Level1"
+                       FontSize="32"
+                       HorizontalOptions="Center" />
+
+                <Label Text="开始你的歇后语挑战之旅"
+                       SemanticProperties.HeadingLevel="Level2"
+                       FontSize="18"
+                       HorizontalOptions="Center" />
+
+                <Button x:Name="StartGameBtn"
+                        Text="开始游戏"
+                        SemanticProperties.Hint="点击开始游戏"
+                        Clicked="OnStartGameClicked"
+                        HorizontalOptions="Center" />
+
+                <Button x:Name="ProfileBtn"
+                        Text="个人资料"
+                        SemanticProperties.Hint="查看个人资料"
+                        Clicked="OnProfileClicked"
+                        HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- 底部版权信息 -->
+        <Label Grid.Row="1"
+               Text="© 2024 WDragon"
+               HorizontalOptions="Center"
+               Margin="0,0,0,10"
+               TextColor="Gray"
+               FontSize="12"/>
+    </Grid>
+
+</ContentPage> 

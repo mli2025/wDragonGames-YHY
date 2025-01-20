@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xiehouyu-api
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xiehouyu-api
+  template:
+    metadata:
+      labels:
+        app: xiehouyu-api
+    spec:
+      containers:
+      - name: xiehouyu-api
+        image: your-registry/xiehouyu-api:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+              name: xiehouyu-secrets
+              key: db-connection
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xiehouyu-api
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: xiehouyu-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xiehouyu-api
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: api.xiehouyu.example.com  # 替换为你的域名
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: xiehouyu-api
+            port:
+              number: 80 

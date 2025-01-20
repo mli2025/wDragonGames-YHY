@@ -1,0 +1,99 @@
+@model IEnumerable<UserManagementViewModel>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">用户管理</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.UserName)</th>
+                        <th>@Html.DisplayNameFor(m => m.DisplayName)</th>
+                        <th>@Html.DisplayNameFor(m => m.Email)</th>
+                        <th>@Html.DisplayNameFor(m => m.GameCount)</th>
+                        <th>@Html.DisplayNameFor(m => m.AccuracyRate)</th>
+                        <th>@Html.DisplayNameFor(m => m.CreatedAt)</th>
+                        <th>@Html.DisplayNameFor(m => m.IsLocked)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.DisplayName</td>
+                            <td>@user.Email</td>
+                            <td>@user.GameCount</td>
+                            <td>@($"{user.AccuracyRate:F1}%")</td>
+                            <td>@user.CreatedAt.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                <span class="badge bg-@(user.IsLocked ? "danger" : "success")">
+                                    @(user.IsLocked ? "已锁定" : "正常")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@user.Id" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <button type="button" 
+                                            class="btn btn-sm btn-outline-warning"
+                                            onclick="toggleLock('@user.Id')">
+                                        <i class="fas fa-@(user.IsLocked ? "unlock" : "lock")"></i>
+                                    </button>
+                                    <button type="button" 
+                                            class="btn btn-sm btn-outline-danger"
+                                            onclick="deleteUser('@user.Id')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleLock(userId) {
+            if (confirm('确定要切换该用户的锁定状态吗？')) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '@Url.Action("ToggleLock")';
+                
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'id';
+                input.value = userId;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+        
+        function deleteUser(userId) {
+            if (confirm('确定要删除该用户吗？此操作不可恢复！')) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '@Url.Action("Delete")';
+                
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'id';
+                input.value = userId;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+} 

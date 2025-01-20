@@ -1,0 +1,92 @@
+@model UserDetailsViewModel
+
+<div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">用户详情</h2>
+        <a asp-action="Index" class="btn btn-light">
+            <i class="fas fa-arrow-left"></i> 返回列表
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>基本信息</h3>
+                <dl class="row">
+                    <dt class="col-sm-4">用户名</dt>
+                    <dd class="col-sm-8">@Model.User.UserName</dd>
+
+                    <dt class="col-sm-4">显示名称</dt>
+                    <dd class="col-sm-8">@Model.User.DisplayName</dd>
+
+                    <dt class="col-sm-4">邮箱</dt>
+                    <dd class="col-sm-8">@Model.User.Email</dd>
+
+                    <dt class="col-sm-4">注册时间</dt>
+                    <dd class="col-sm-8">@Model.User.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</dd>
+
+                    <dt class="col-sm-4">账号状态</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-@(Model.User.LockoutEnd > DateTime.UtcNow ? "danger" : "success")">
+                            @(Model.User.LockoutEnd > DateTime.UtcNow ? "已锁定" : "正常")
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <h3>游戏统计</h3>
+                @if (Model.GameStats != null)
+                {
+                    <dl class="row">
+                        <dt class="col-sm-4">总游戏次数</dt>
+                        <dd class="col-sm-8">@Model.GameStats.TotalGames</dd>
+
+                        <dt class="col-sm-4">正确答题数</dt>
+                        <dd class="col-sm-8">@Model.GameStats.CorrectAnswers</dd>
+
+                        <dt class="col-sm-4">正确率</dt>
+                        <dd class="col-sm-8">@($"{Model.GameStats.AccuracyRate:F1}%")</dd>
+
+                        <dt class="col-sm-4">平均用时</dt>
+                        <dd class="col-sm-8">@($"{Model.GameStats.AverageTime:F1}秒")</dd>
+                    </dl>
+                }
+                else
+                {
+                    <p class="text-muted">暂无游戏记录</p>
+                }
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h3>最近奖励</h3>
+            @if (Model.RecentRewards.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>奖励类型</th>
+                                <th>数量</th>
+                                <th>获得时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var reward in Model.RecentRewards)
+                            {
+                                <tr>
+                                    <td>@reward.RewardType</td>
+                                    <td>@reward.Amount</td>
+                                    <td>@reward.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">暂无奖励记录</p>
+            }
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,3 @@
+<ItemGroup>
+    <ProjectReference Include="..\XiehouYu.Shared\XiehouYu.Shared.csproj" />
+</ItemGroup> 

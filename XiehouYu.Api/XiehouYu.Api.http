@@ -1,0 +1,6 @@
+@XiehouYu.Api_HostAddress = http://localhost:5108
+
+GET {{XiehouYu.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
